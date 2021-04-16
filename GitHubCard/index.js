@@ -3,6 +3,18 @@
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
+import axios from 'axios'
+
+const entryPoint = document.querySelector('.cards');
+
+const getCard = () => {axios.get('https://api.github.com/users/jmbobbitt')
+  .then(({data}) => {
+    entryPoint.appendChild(newCard(data));
+    })
+  .catch((err) => console.log(err))
+  }
+
+  getCard()
 
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
@@ -11,6 +23,8 @@
 
     Skip to STEP 3.
 */
+
+
 
 /*
   STEP 4: Pass the data received from Github into your function,
@@ -28,7 +42,21 @@
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = [
+  'tetondan',
+  'dustinmeyers',
+  'justsml',
+  'luishrd',
+  'bigknell'
+];
+
+followersArray.forEach(e => {
+    axios.get('https://api.github.com/users'+ e)
+      .then((data) => 
+        entryPoint.appendChild(newCard(data)))      
+      .catch((err) => console.log(err));
+});
+    
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
@@ -49,6 +77,58 @@ const followersArray = [];
       </div>
     </div>
 */
+const newCard = (obj) => {
+  const cardDiv = document.createElement('div');
+    cardDiv.classList.add('card');
+
+  const image = document.createElement('img');
+    image.src = obj.avatar_url;
+
+  const cardInfo = document.createElement('div');
+    cardInfo.classList.add('card-info');
+
+  const headingThree = document.createElement('h3');
+    headingThree.classList.add('name');
+    headingThree.textContent = obj.name;
+
+  const usernameP = document.createElement('p');
+    usernameP.classList.add('username');
+    usernameP.textContent= obj.login;
+
+  const locationP = document.createElement('p');
+    locationP.textContent = 'Location: ' + obj.location;
+
+  const profileP = document.createElement('p');
+    profileP.textContent = 'Profile: ';
+
+  const anchor = document.createElement('a');
+    anchor.href = obj.html_url;
+    anchor.textContent =obj.html_url;
+
+  const followersP = document.createElement('p');
+    followersP.textContent = 'Followers: ' + obj.followers;
+
+  const followingP = document.createElement('p');
+    followingP.textContent = 'Following: ' + obj.following;
+
+  const bioP = document.createElement('p');
+    bioP.textContent = 'Bio: ' + obj.bio;
+
+    entryPoint.appendChild(cardDiv)
+    cardDiv.appendChild(image);
+    cardDiv.appendChild(cardInfo)
+    cardInfo.appendChild(headingThree);
+    cardInfo.appendChild(usernameP);
+    cardInfo.appendChild(locationP);
+    cardInfo.appendChild(profileP);
+    profileP.appendChild(anchor);
+    cardInfo.appendChild(followersP);
+    cardInfo.appendChild(followingP);
+    cardInfo.appendChild(bioP);
+
+
+    console.log(cardDiv) 
+}
 
 /*
   List of LS Instructors Github username's:
