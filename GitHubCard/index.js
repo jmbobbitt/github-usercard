@@ -3,6 +3,18 @@
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
+import axios from 'axios'
+
+const entryPoint = document.querySelector('div.cards')
+
+const getCard = () => {axios.get('https://api.github.com/users/jmbobbitt')
+  .then(({data}) => {
+    entryPoint.appendChild(newCard(data));
+    })
+  .catch(err => console.log(err))
+  }
+
+  getCard()
 
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
